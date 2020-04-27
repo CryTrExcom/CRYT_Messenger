@@ -1,0 +1,189 @@
+<link rel="icon" href="favicon.ico" type="image/ico" />
+<!-- PASTE THIS ON YOUR WEBSITE BEFORE </head> -->
+<link href="assets/js/sweetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
+<link href="chat-over.css" rel="stylesheet" type="text/css"/>
+<!--  -->
+
+</head>
+<body>
+<h1 align="center">CRYT Messenger Website Chat Widget</h1>
+<p align="center"><a href="https://cryt.crytrex.com" target="_blank"><img src="assets/images/msgtop.png" alt="CRYT Messenger" border="0"></a></p><br>
+
+<p align="center">Run a Chat over Website powered by <br>
+<a href="https://cryt.crytrex.com" target="_blank"><img src="assets/images/logo.png" alt="CRYT Blockchain" border="0"></a><br>
+<br><br>
+
+Install Details on <a href="https://github.com/CryTrExcom/CRYT_Messenger" target="_blank">GitHub.</a><br>
+<br>
+Click Chat button on bottom right to open demo chat.</p>
+
+
+<!-- PASTE THIS ON YOUR WEBSITE AFTER <body> -->
+<button class="open-button" onClick="openForm()">Chat</button>
+<div class="chat-popup" id="myForm">
+  <form role="form" class="form-container" id="directmsgform" name="directmsgform">
+<p align="center"><a href="https://cryt.crytrex.com" target="_blank"><img src="assets/images/msgtop.png" alt="CRYT Messenger" border="0"></a></p>
+<hr>
+<div id="getchat"></div>
+<input type="text" maxlength="60" pattern="[^'\x22]+" name="directmsg" id="directmsg" class="form-container" placeholder="Write your message here..." required>
+<input type="hidden" name="directmsgpassphrase" id="passbear" value="" required>
+<input type="hidden" name="directmsgaddress" id="addressbear" value="CRYT-BUYH-6XGS-3ZE8-7DX7X" required>
+<button id="login" onClick="logincryt()" class="btn">Login to Chat!</button>
+<button name="directform" id="directform" type="submit" class="btn">Send</button>
+<button id="lowbal" class="btn cancel" disabled>Low CRYT Balance</button>
+<button type="button" class="btn cancel" onClick="closeForm()">Close</button>
+  </form>
+</div>
+<!-- -->
+
+<!-- PASTE THIS ON YOUR WEBSITE BEFORE </body> -->
+<script src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="crytjs.js"></script> 
+<script src="assets/js/sweetalert/sweetalert.min.js"></script>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+  $('#directform').hide();
+  $('#lowbal').hide();
+}
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+<script>
+function logincryt() {		
+var passphrase = prompt("Please enter your Passphrase for allow Transactions on CRYT Blockchain", "");
+if (passphrase == null || passphrase == "") {
+var passphrase = prompt("Enter your Passphrase for Login and allow Transactions on CRYT Blockchain", "");
+$('#login').prop('disabled', false);
+} else {
+var acc = crytjs.secretPhraseToAccountId(passphrase);
+document.getElementById("passbear").value = passphrase;
+
+                setInterval( function() {
+				$.getJSON('https://wallet.crytrex.com/nxt?=nxt&requestType=getBalance&account='+ acc, function(emp) { 
+				balance = emp.balanceNQT / 100000000;
+if (balance <= '0') {
+$('#login').hide();
+$('#directform').hide();
+$('#lowbal').show();
+} else {
+$('#login').hide();
+$('#directform').show();
+$('#lowbal').hide();
+}
+                });}, 3000);
+		
+}
+}	
+	          $(function(){
+            $("#directmsgform").on("submit", function(event) {
+                event.preventDefault();
+				$('#directform').prop('disabled', true);
+                var inputdata = $("#directmsgform").serialize();
+                $.ajax({
+                    url: "directmsgform.php",
+                    type: "post",
+                    data: inputdata,
+                    success: function(data) {                            
+
+                        if (data==0) {
+							swal({
+                            title: "Success!",
+                            text: "Chat Message Sent! Wait some Seconds until message will be Visible",
+                            type: "success",
+                            showConfirmButton: false,
+                            timer: 5000,
+                        });
+                        }else if (data==1) {
+							swal({
+                            title: "Wops!",
+                            text: "Something Wrong! Try Again.",
+                            type: "error",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        }else if (data==2) {
+							swal({
+                            title: "Wops!",
+                            text: "Something Wrong! Try Again.",
+                            type: "error",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        }else {
+
+							swal({
+                            title: "Good job!",
+                            text: "Chat Message Sent! Wait some Seconds until message will be Visible",
+                            type: "success",
+                            showConfirmButton: false,
+                            timer: 5000,
+                        });
+                        }
+                        document.getElementById("directmsgform").reset();
+				$('#directform').prop('disabled', false);
+                    },
+					
+                });
+            });
+        });
+		 $(document).ready( function() {
+		    done77();
+			loadchat();
+        });         
+        function done77() {
+            setInterval( function() {         
+            loadchat(); 
+            }, 10000);
+        }
+function loadchat() {
+$.getJSON('https://wallet.crytrex.com/nxt?requestType=getBlockchainTransactions&account=CRYT-BUYH-6XGS-3ZE8-7DX7X&type=1&subtype=0&withMessage=true&includeExpiredPrunable=false', function(data) {
+$("#getchat").empty();
+$.each(data.transactions, function(index, element){
+  unixtimestamp = element.blockTimestamp + 1500278400;
+ // Months array
+  months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ // Convert timestamp to milliseconds
+ date = new Date(unixtimestamp*1000);
+ // Year
+ year = date.getFullYear();
+ // Month
+ month = months_arr[date.getMonth()];
+ // Day
+ day = date.getDate();
+ // Hours
+ hours = date.getHours();
+ // Minutes
+ minutes = "0" + date.getMinutes();
+ // Seconds
+ seconds = "0" + date.getSeconds();
+ // Display date time in MM-dd-yyyy h:m:s format
+ convdataTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+if (element.attachment.message){
+if (element.senderRS == 'CRYT-8HMW-2CYN-ZHB8-5Q3Q5'){
+type = '<span> | *Admin*</span>';
+} else {
+type = '';
+}
+$("#getchat").append("<h6>"+ element.attachment.message +"<br><em>"+ element.senderRS +" | "+ convdataTime +""+type+"</em></h6>");
+}
+else {
+type = '<span>|Encrypted|</span>';
+$("#getchat").append("<h6>*********************** "+type+"<br><em>"+ element.senderRS +" | "+ convdataTime +"</em></h6>");
+}
+                    //Max Row Show From Stemar
+                    var maxRow = 11;
+                    var length = $('#getchat h6').length;
+                    if (length >= (maxRow)) {
+                        $('#getchat h6:last').remove();
+                    }
+                });
+            });
+		
+        }		
+		</script>
+<!-- -->
+
+</body>
