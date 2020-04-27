@@ -36,6 +36,17 @@ messages uncrypted to chat group
 Done!
 
 ----
+## Install Widget! ##
+
+INSTALL:
+Open widget.html
+Need to copy and paste the code with comments on your website and its done.
+
+This widget use assets and other files from this repo, make sure to follow CRYT Messenger install info before to setup your Website chat address and settings.
+
+Widget Demo here: https://demo.crytrex.com/messenger/widget.html
+
+----
 ## Features ##
 
 CRYT Messenger is a complete Chat Solution for any website, run without database, all function is over CRYT Blockchain.
@@ -59,7 +70,7 @@ can see full working demo @ https://demo.crytrex.com/messenger
 ----
 ## Development ##
 
-    - Devs working on Chat widget, and small integration like as shoutbox
+    - Devs working on Chat Shoutbox.
 ----
 ## Further Reading ##
 
