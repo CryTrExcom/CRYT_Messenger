@@ -57,6 +57,10 @@ no other requirements, and extreme light to run.
 can see full working demo @ https://demo.crytrex.com/messenger
 
 ----
+## Development ##
+
+    - Devs working on Chat widget, and small integration like as shoutbox
+----
 ## Further Reading ##
 
     - Official Website: https://cryt.crytrex.com
